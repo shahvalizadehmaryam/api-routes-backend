@@ -14,7 +14,7 @@ export default function Home() {
     }
     fetchData();
   }, []);
-  const addTodoHandler = async() => {
+  const addTodoHandler = async () => {
     const res = fetch("/api/todos", {
       method: "POST",
       body: JSON.stringify({ todo }),
@@ -22,6 +22,13 @@ export default function Home() {
     });
     const data = (await res).json();
     console.log(data);
+  };
+  const deleteAll = async () => {
+    const res = await fetch("/api/todos", {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    setTodos(data.data);
   };
   return (
     <div className={styles.container}>
@@ -33,6 +40,9 @@ export default function Home() {
       <div>
         <input value={todo} onChange={(e) => setTodo(e.target.value)} />
         <button onClick={addTodoHandler}>Add Todo</button>
+      </div>
+      <div>
+        <button onClick={deleteAll}>Delete All</button>
       </div>
     </div>
   );
