@@ -1,3 +1,5 @@
+import { todos } from "../../../data/todos";
+
 export default function handler(req, res) {
-  res.status(200).json({ name: "/api/todos route" });
+  res.status(200).json(todos);
 }
