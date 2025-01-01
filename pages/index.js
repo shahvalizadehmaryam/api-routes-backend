@@ -30,6 +30,20 @@ export default function Home() {
     const data = await res.json();
     setTodos(data.data);
   };
+  const replaceAllTodosHandler = async () => {
+    const res = await fetch("/api/todos", {
+      method: "PUT",
+      body: JSON.stringify([
+        { id: 7, title: "todo 7" },
+        { id: 8, title: "todo 8" },
+      ]),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    console.log(data.data);
+    setTodos(data.data);
+  };
+
   return (
     <div className={styles.container}>
       <ul>
@@ -43,6 +57,9 @@ export default function Home() {
       </div>
       <div>
         <button onClick={deleteAll}>Delete All</button>
+      </div>
+      <div>
+        <button onClick={replaceAllTodosHandler}>Replace All</button>
       </div>
     </div>
   );
