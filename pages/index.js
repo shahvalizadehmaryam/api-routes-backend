@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState([]);
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("/api/todos");
@@ -43,6 +45,15 @@ export default function Home() {
     console.log(data.data);
     setTodos(data.data);
   };
+  const EditHandler = async () => {
+    const res = await fetch(`/api/todos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ title }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    setTodos(data);
+  };
 
   return (
     <div className={styles.container}>
@@ -60,6 +71,11 @@ export default function Home() {
       </div>
       <div>
         <button onClick={replaceAllTodosHandler}>Replace All</button>
+      </div>
+      <div>
+        <input value={id} onChange={(e) => setId(e.target.value)} />
+        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <button onClick={EditHandler}>Edit</button>
       </div>
     </div>
   );
